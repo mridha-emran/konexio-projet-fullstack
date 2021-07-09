@@ -3,6 +3,7 @@ var app=express()
 var countries=require("./country.json")
 
 var cors = require('cors')
+const { Console } = require('console')
 app.use(cors())
 
 var port=8000;
@@ -13,12 +14,12 @@ app.get('/all',function(req,res){
     })
 })
 
+
 app.get('/:countryName',function(req,res){
     
-    const countryName=req.params.countryName.toLocaleLowerCase
-    const countryD=countries.filter(function(country){
-            country.name.toLocaleLowerCase()===countryName
-    })
+    const countryName=req.params.countryName.toLowerCase()
+    console.log(countryName)
+    const countryD=countries.filter((country) => country.name.toLowerCase()===countryName)
     
     
     
@@ -29,6 +30,19 @@ app.get('/:countryName',function(req,res){
 })
 
 
+app.get('/capital/:capital',function(req,res){
+    
+    const capital=req.params.capital.toLowerCase()
+    console.log(capital)
+    const capitalD=countries.filter((country) =>country.capital.toLowerCase()===capital)
+    
+    
+    
+    res.json({
+        status: "success",
+		data: capitalD,
+    })
+})
 
 
 app.listen(port, function () {

@@ -1,9 +1,10 @@
 
 
 
+
  $(() => {
 	
-    	$(".btnShowCountries").click();
+    	$(".btnShowCountries").click(handleClick);
     });
 
     $(document).ready(function () {
@@ -28,28 +29,79 @@
         );
         
     })
-    $("button").click(function () {
+    function getcoun() {
 
+        const userValue = $("#userSearchValue").val();
 
         $.ajax(
     
             {
-                url:"http://localhost:8000/${userValue}",
+                url:`http://localhost:8000/${userValue}`,
                 success: function (data) {
     
-                    const userValue = $("#userSearchValue").val();
                     console.log(data);
+                    let countries=""
+                    // for(var i=0;i< data.length;i++){
+                        data.data.forEach(country=> {
+                            
+                            // countries+=`<li>${data[i].name}</li>`
+                            countries+=`<li>${country.name}</li>`
+                        });
+                        
+                    
+                    $('#list').html(countries)
+                
                     
                 }
             });
     
-    });
+    };
 
+function getcap() {
 
+        const userValue = $("#userSearchValue").val();
+        
+        $.ajax(
+            
+            {
+                url:`http://localhost:8000/capital/${userValue}`,
+                success: function (data) {
+                    
+                    console.log(data);
 
-
-
-
+                    let countries=""
+                    // for(var i=0;i< data.length;i++){
+                        data.data.forEach(country=> {
+                            
+                            // countries+=`<li>${data[i].name}</li>`
+                            countries+=`<li>${country.name}</li>`
+                        });
+                        
+                    
+                    $('#list').html(countries)
+                
+                    
+                }
+            });
+            
+        }
+        
+        
+        
+        
+        function handleClick(){
+            let inputVle=$("input").val()
+            let checkbox=$("input.checked").val()
+            console.log(checkbox)
+        
+            if(checkbox==="countries"){
+                getcoun()
+                
+            }
+            else{
+                getcap()
+            }
+        }
 
 
 
